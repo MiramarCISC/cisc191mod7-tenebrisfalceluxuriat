@@ -13,14 +13,14 @@ public class MatchStatistics {
     /**
      * TODO 9: Make this update thread-safe.
      */
-    public void recordJoin() {
+    public synchronized void recordJoin() {
         joinedMatchCount = joinedMatchCount + 1;
     }
 
     /**
      * TODO 9: Make this update thread-safe.
      */
-    public void recordCompletion() {
+    public synchronized void recordCompletion() {
         completedMatchCount = completedMatchCount + 1;
     }
 
@@ -38,7 +38,7 @@ public class MatchStatistics {
      * Expected format:
      * Server stats: 3 joined, 2 completed
      */
-    public String buildStatusLine() {
-        return "TODO: server stats";
+    public synchronized String buildStatusLine() {
+        return "Server stats: " + joinedMatchCount + " joined, " + completedMatchCount + " completed";
     }
 }
