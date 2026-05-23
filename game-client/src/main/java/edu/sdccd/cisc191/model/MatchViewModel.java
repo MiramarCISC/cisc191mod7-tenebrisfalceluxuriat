@@ -60,7 +60,7 @@ public class MatchViewModel {
      * - Mark the match as over.
      * - Protect shared state from race conditions.
      */
-    public void recordCompletedMatchThreadSafely(String winnerName) {
+    public synchronized void recordCompletedMatchThreadSafely(String winnerName) {
         completedMatchCount = completedMatchCount + 1;
         setWinnerName(winnerName);
         matchOver = true;
@@ -88,7 +88,16 @@ public class MatchViewModel {
      * - Use "ranked" when ranked is true, otherwise "casual".
      */
     public String buildMatchSummary(String difficulty, boolean ranked) {
-        return "TODO: build match summary";
+        if (matchId == null || matchId.isBlank()) {
+            return "No match";
+        }
+
+        String diff = (difficulty == null || difficulty.isBlank()) ? "Normal" : difficulty;
+        String mode = ranked ? "ranked" : "casual";
+
+        return "Match " + matchId + ": " +
+                player.getName() + " vs " +
+                opponent.getName() + " (" + diff + ", " + mode + ")";
     }
 
     public void resetLocalState() {

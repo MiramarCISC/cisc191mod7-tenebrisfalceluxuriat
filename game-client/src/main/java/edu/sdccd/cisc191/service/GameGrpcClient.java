@@ -55,10 +55,19 @@ public class GameGrpcClient {
      * - Preserve the ranked value.
      */
     public static JoinMatchRequest buildJoinMatchRequest(String playerName, String difficulty, boolean ranked) {
+
+        String safePlayer = (playerName == null || playerName.isBlank())
+                ? "Player"
+                : playerName.trim();
+
+        String safeDifficulty = (difficulty == null || difficulty.isBlank())
+                ? "Normal"
+                : difficulty.trim();
+
         return JoinMatchRequest.newBuilder()
-                .setPlayerName("TODO")
-                .setDifficulty("TODO")
-                .setRanked(false)
+                .setPlayerName(safePlayer)
+                .setDifficulty(safeDifficulty)
+                .setRanked(ranked)
                 .build();
     }
 
@@ -96,3 +105,4 @@ public class GameGrpcClient {
         channel.shutdown();
     }
 }
+
